@@ -1,0 +1,38 @@
+@startuml
+
+title Injector Interfaces
+
+package Extension <<Rectangle>> {
+    abstract class Userscript {https://github.com/dapplets/dapplet-main
+      {abstract} +void init()
+      +Promise<any> loadDapplet(id, metadata)
+      +Promise<any> sendTransaction(tx)
+      +Promise<any> signMessage(params)
+      +Promise<any> signPersonalMessage(params)
+      +Promise<any> signTypedData(params)
+    }
+    
+    abstract class BaseInjector {
+        +void Init()
+        {abstract} +void injectElement(contextSelector, elementSelector, element)
+        {abstract} +void elementClickHandler(context)
+    }
+}
+
+package Injector <<Rectangle>> {
+    class TwitterInjector {
+        +void injectElement(contextSelector, elementSelector, element)
+        +void elementClickHandler(context)
+    }
+    
+    class CustomInjector {
+        +void init()
+    }
+}
+
+
+Userscript <|-- BaseInjector : implements init()
+BaseInjector <|-- TwitterInjector : implements injectElement() and elementClickHandler()
+Userscript <|-- CustomInjector : implements init()
+
+@enduml
